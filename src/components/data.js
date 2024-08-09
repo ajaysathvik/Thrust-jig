@@ -114,7 +114,7 @@ const batterylifeScale = {
   value: 30,
 };
 
-export {
+module.exports = {
   addtoData,
   datacollection,
   tempdata,
@@ -127,5 +127,4 @@ export {
   tempScale,
   currentScale,
   batterylifeScale,
-  collectData,
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import "../App.css";
 import MultiAxisDemo from "./components/singlegraph";
 import {
@@ -11,64 +10,38 @@ import {
   thrustdata,
 } from "./components/data";
 
+const GraphSection = ({ name, data }) => (
+  <MultiAxisDemo
+    name={name}
+    scdata={data}
+    liveDataStream={data.datasets[0].data[data.datasets[0].data.length - 1]}
+  />
+);
+
 export const Page = () => {
+  const graphData = [
+    { name: "Temperature", data: tempdata },
+    { name: "Current", data: currentdata },
+    { name: "Voltage", data: voltdata },
+    { name: "Rpm", data: rpmdata },
+    { name: "Torque", data: torquedata },
+    { name: "Thrust", data: thrustdata },
+  ];
+
   return (
     <div>
       <section className="flex flex-col">
-        <div className="w-full flex flex-row">
-          <MultiAxisDemo
-            name="Temperature"
-            scdata={tempdata}
-            liveDataStream={
-              tempdata.datasets[0].data[tempdata.datasets[0].data.length - 1]
-            }
-          />
-          <MultiAxisDemo
-            name="Current"
-            scdata={currentdata}
-            liveDataStream={
-              currentdata.datasets[0].data[
-                currentdata.datasets[0].data.length - 1
-              ]
-            }
-          />
-        </div>
-        <div className="size-full flex flex-row">
-          <MultiAxisDemo
-            name="Voltage"
-            scdata={voltdata}
-            liveDataStream={
-              voltdata.datasets[0].data[voltdata.datasets[0].data.length - 1]
-            }
-          />
-          <MultiAxisDemo
-            name="Rpm"
-            scdata={rpmdata}
-            liveDataStream={
-              rpmdata.datasets[0].data[rpmdata.datasets[0].data.length - 1]
-            }
-          />
-        </div>
-        <div className="size-full flex flex-row">
-          <MultiAxisDemo
-            name="Torque"
-            scdata={torquedata}
-            liveDataStream={
-              torquedata.datasets[0].data[
-                torquedata.datasets[0].data.length - 1
-              ]
-            }
-          />
-          <MultiAxisDemo
-            name="Thrust"
-            scdata={thrustdata}
-            liveDataStream={
-              thrustdata.datasets[0].data[
-                thrustdata.datasets[0].data.length - 1
-              ]
-            }
-          />
-        </div>
+        {graphData.reduce((acc, graph, index) => {
+          if (index % 2 === 0) acc.push([]);
+          acc[acc.length - 1].push(graph);
+          return acc;
+        }, []).map((row, rowIndex) => (
+          <div key={rowIndex} className="w-full flex flex-row">
+            {row.map((graph) => (
+              <GraphSection key={graph.name} name={graph.name} data={graph.data} />
+            ))}
+          </div>
+        ))}
       </section>
     </div>
   );
