@@ -1,20 +1,23 @@
 const { app, BrowserWindow } = require("electron");
-const log = require("electron-log");
-const { SerialPort } = require("serialport");
-const { ReadlineParser } = require("@serialport/parser-readline");
+const SerialPort = require("serialport");
+const ReadlineParser = require("@serialport/parser-readline");
+const {datacollection} = require("./src/components/data");
 const path = require("path");
-const { datacollection } = require("./src/components/data");
 
-const port = new SerialPort({ path: "COM15", baudRate: 9600 });
-const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+// const port = new SerialPort({ path: "COM15", baudRate: 9600 });
+// const parser = port.pipe(new ReadlineParser({ delimiter: "\r\n" }));
 
-function collectData() {
-  parser.on("data", (data) => {
-    datacollection(data)
-  });
-}
+// function collectData() {
+//   parser.on("data", (data) => {
+//     datacollection(data)
+//   });
+// }
 
-collectData();
+// function collectData() {
+//   datacollection("25 0.5 12 1000 2");
+// }
+
+// collectData();
 
 function createWindow() {
   const win = new BrowserWindow({
